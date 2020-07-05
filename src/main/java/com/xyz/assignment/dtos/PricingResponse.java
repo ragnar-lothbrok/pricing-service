@@ -1,8 +1,11 @@
 package com.xyz.assignment.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.xyz.assignment.enums.CurrencyEnum;
 import java.util.List;
 
+@JsonInclude(Include.NON_NULL)
 public class PricingResponse {
 
     private Float salePrice;
