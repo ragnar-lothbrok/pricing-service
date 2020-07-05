@@ -16,11 +16,18 @@ docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 p
     - Postman
 - Load Testing Scripts
     - JMeter, Postman Runner
-- Micrometer Integration
-    - Prometheus, Grafana
-- Convert logging to Json
-    - To integrate with Splunk
-- Security - Database SSL Mode needs to ne enabled in Stage/Production Environment.
-    
+- Monitoring
+    - Micrometer Integration (Prometheus, Grafana)
+- Logging
+    - Convert logging to Json to integrate with Splunk
+- Security
+    - Database SSL Mode needs to ne enabled in Stage/Production Environment.
+    - Sonar Integration
+- CI/CD
+    - Jenkins
+    - Unit Test Cases
+    - Sonar Integrations
+    - Integration T%est Cases
+    - Docker Image building and publish to artifactory
 
     
