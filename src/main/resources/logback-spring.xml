@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS_PATH" value="./logs" />
+    <property name="LOGS_PATH" value="./logs"/>
 
     <appender name="Console"
         class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}):
+                %msg%n%throwable
             </Pattern>
         </layout>
     </appender>
@@ -33,13 +34,13 @@
     </appender>
 
     <root level="info">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="Console"/>
     </root>
 
     <logger name="com.xyz" level="info" additivity="false">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="Console"/>
     </logger>
 
 </configuration>
