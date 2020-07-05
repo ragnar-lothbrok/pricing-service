@@ -1,0 +1,20 @@
+server:
+  port: 8080
+com:
+  xyz:
+    assignment:
+      pricingservice:
+        data-source:
+          jdbcUrl: jdbc:postgresql://${PRICINGSERVICE_DBHOST:localhost}:${PRICINGSERVICE_DBPORT:5432}/${PRICINGSERVICE_DBNAME:postgres}
+          databaseName: ${PRICINGSERVICE_DBNAME:postgres}
+          driverClassName: org.postgresql.Driver
+          username: ${PRICINGSERVICE_DBUSERNAME:postgres}
+          password: ${PRICINGSERVICE_DBPASSWORD:docker}
+          autoCommit: false
+          connectionTimeout: 1000
+          maximumPoolSize: ${PRICINGSERVICE_DBPOOLSIZE:10}
+          poolName: hmalertservice-hikari-test-pool
+          leakDetectionThreshold: 5000
+          initialize: false
+          generateUniqueName: false
+          name: hmalertservice-db-connection-pool
