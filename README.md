@@ -72,7 +72,12 @@ docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 p
 - Use either Curl or Swagger    
 
 ### Database Schema
+https://github.com/ragnar-lothbrok/pricing-service/tree/master/src/main/resources/db/migration
 
+### Docker Commands
+- docker ps (Listing Containers)
+- docker container stop <id> (Stopping container)
+- docker container rm <id> (Removing Container)
 
 # For Debugging
 - Request Id is added as Part of Response in APIs. Which can be used to check the logs of specific API call.
