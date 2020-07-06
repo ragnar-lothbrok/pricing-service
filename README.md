@@ -61,9 +61,9 @@ Error Code | Http Status Code | Description
 - Maven
 - Clone repository (git clone https://github.com/ragnar-lothbrok/pricing-service.git)
 - Go to directory pricing-service
-- First Apporach
+- First Approach
     - mvn spring-boot:run
-- Second Apporach
+- Second Approach
     - mvn clean install
     - java -jar target/pricing-service-0.0.1-SNAPSHOT.jar
 - Use either Curl or Swagger     
