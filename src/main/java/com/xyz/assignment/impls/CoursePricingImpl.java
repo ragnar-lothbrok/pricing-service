@@ -40,7 +40,7 @@ public class CoursePricingImpl implements CoursePricingApi {
             List<CoursePrice> coursePrices = coursePriceRepository.findByCourseIdAndLocaleId(courseId, localeId);
             if(CollectionUtils.isEmpty(coursePrices)) {
                 LOGGER.info("Course Price not found.");
-                throw new ServiceException(ErrorConstants.COURSE_PRICING_NOT_FOUND, "Course Pricing not found", HttpStatus.INTERNAL_SERVER_ERROR.value());
+                throw new ServiceException(ErrorConstants.COURSE_PRICING_NOT_FOUND, "Course Pricing not found", HttpStatus.NOT_FOUND.value());
             }
 
             List<TaxDetails> taxDetails = null;
