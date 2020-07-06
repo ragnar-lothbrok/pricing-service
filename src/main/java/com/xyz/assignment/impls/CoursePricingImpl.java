@@ -11,12 +11,13 @@ import com.xyz.assignment.jpa.entities.CoursePrice;
 import com.xyz.assignment.jpa.entities.TaxDetails;
 import com.xyz.assignment.jpa.repositories.CoursePriceRepository;
 import com.xyz.assignment.jpa.repositories.TaxDetailsRepository;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -33,33 +34,62 @@ public class CoursePricingImpl implements CoursePricingApi {
     private TaxDetailsRepository taxDetailsRepository;
 
     @Override
-    public List<PricingResponse> getCoursePrice(Long courseId, String localeId) {
+    public List<PricingResponse> getCoursePrice(Long courseId, String localeId, Boolean inline) {
         LOGGER.info("Calculating Course Price for Course = {} and Locale = {} ", courseId, localeId);
-        List<CoursePrice> coursePrices = coursePriceRepository.findByCourseIdAndLocaleId(courseId, localeId);
-        if(CollectionUtils.isEmpty(coursePrices)) {
-            LOGGER.info("Course Price not found.");
-            throw new ServiceException(ErrorConstants.COURSE_PRICING_NOT_FOUND, "Course Pricing not found", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        }
-        List<TaxDetails> taxDetails = taxDetailsRepository.findByLocaleId(localeId);
-
-        return coursePrices.stream().map(coursePrice -> {
-            PricingResponse pricingResponse = new PricingResponse();
-            pricingResponse.setCurrency(CurrencyEnum.valueOf(localeId));
-            pricingResponse.setSalePrice(roundingFloat(coursePrice.getSalePrice()));
-            pricingResponse.setPrice(roundingFloat(coursePrice.getPrice()));
-            if(CollectionUtils.isEmpty(taxDetails)) {
-                LOGGER.info("Tax Details are empty for locale id = {} ", localeId);
-            } else {
-                pricingResponse.setTaxes(calculateTax(taxDetails, coursePrice));
-                pricingResponse.setTotalTax(roundingFloat(pricingResponse.getTaxes().stream().map(tax -> tax.getTaxAmount()).reduce(0.0f, Float::sum)));
-                pricingResponse.setTotalPrice(roundingFloat(coursePrice.getSalePrice() + pricingResponse.getTotalTax()));
+        try {
+            List<CoursePrice> coursePrices = coursePriceRepository.findByCourseIdAndLocaleId(courseId, localeId);
+            if(CollectionUtils.isEmpty(coursePrices)) {
+                LOGGER.info("Course Price not found.");
+                throw new ServiceException(ErrorConstants.COURSE_PRICING_NOT_FOUND, "Course Pricing not found", HttpStatus.INTERNAL_SERVER_ERROR.value());
             }
-            pricingResponse.setSubscriptionId(coursePrice.getCoursePricePK().getSubscriptionType().getId());
-            pricingResponse.setSubscriptionName(coursePrice.getCoursePricePK().getSubscriptionType().getTimeUnitValue() + " " + coursePrice.getCoursePricePK().getSubscriptionType().getTimeUnit());
-            return pricingResponse;
-        }).collect(Collectors.toList());
+
+            List<TaxDetails> taxDetails = null;
+            if(Objects.nonNull(inline) && inline) {
+                taxDetails = taxDetailsRepository.findByLocaleId(localeId);
+            }
+
+            List<TaxDetails> finalTaxDetails = taxDetails;
+            return coursePrices.stream().map(coursePrice -> {
+                PricingResponse pricingResponse = constructBasicPriceResponse(localeId, coursePrice);
+                if(!CollectionUtils.isEmpty(finalTaxDetails)) {
+                    pricingResponse.setTaxes(calculateTax(finalTaxDetails, coursePrice));
+                    pricingResponse.setTotalTax(roundingFloat(pricingResponse.getTaxes().stream().map(tax -> tax.getTaxAmount()).reduce(0.0f, Float::sum)));
+                    pricingResponse.setTotalPrice(roundingFloat(coursePrice.getSalePrice() + pricingResponse.getTotalTax()));
+                }
+                return pricingResponse;
+            }).collect(Collectors.toList());
+        } catch(DataAccessException dataAccessException) {
+            LOGGER.error("Exception occurred while fetching data from database = {} ", dataAccessException);
+            throw new ServiceException(ErrorConstants.DATABASE_ACCESS_ERROR, "Not able to fetch Pricing details from database. Please try after some time.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        } catch(Exception exception) {
+            LOGGER.error("Exception occurred while fetching pricing data = {} ", exception);
+            throw new ServiceException(ErrorConstants.DEFAULT_EXCEPTION, "Not able to fetch Pricing Details. Please try after some time.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
     }
 
+    /**
+     * Returns Basic Pricinig Response
+     * @param localeId
+     * @param coursePrice
+     * @return PricingResponse
+     */
+    private PricingResponse constructBasicPriceResponse(String localeId, CoursePrice coursePrice) {
+        PricingResponse pricingResponse = new PricingResponse();
+        pricingResponse.setCurrency(CurrencyEnum.valueOf(localeId));
+        pricingResponse.setSalePrice(roundingFloat(coursePrice.getSalePrice()));
+        pricingResponse.setPrice(roundingFloat(coursePrice.getPrice()));
+        pricingResponse.setSubscriptionId(coursePrice.getCoursePricePK().getSubscriptionType().getId());
+        pricingResponse.setSubscriptionName(coursePrice.getCoursePricePK().getSubscriptionType().getTimeUnitValue() + " " + coursePrice.getCoursePricePK().getSubscriptionType().getTimeUnit());
+        return pricingResponse;
+    }
+
+
+    /**
+     * Returns Taxes calculation as per Locale.
+     * @param taxDetails
+     * @param coursePrice
+     * @return
+     */
     private List<Tax> calculateTax(List<TaxDetails> taxDetails, CoursePrice coursePrice) {
         return taxDetails.stream().map(taxDetail -> {
             Tax tax = new Tax();
@@ -71,6 +101,11 @@ public class CoursePricingImpl implements CoursePricingApi {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * Convert Float value to decimal 2
+     * @param value
+     * @return
+     */
     private Float roundingFloat(Float value) {
         return Float.valueOf(ServiceConstants.DECIMAL_FORMAT.format(value));
     }

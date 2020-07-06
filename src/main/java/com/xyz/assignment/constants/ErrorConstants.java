@@ -14,4 +14,6 @@ public class ErrorConstants {
 
     public static final Integer COURSE_PRICING_NOT_FOUND = 11203;
 
+    public static final Integer DATABASE_ACCESS_ERROR = 11204;
+
 }
