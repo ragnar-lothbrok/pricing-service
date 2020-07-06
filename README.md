@@ -4,9 +4,6 @@ This service contains pricing related APIs.
 # Swagger Spec
 https://ragnar-lothbrok.github.io/pricing-swagger/
 
-# Running Postgres in Docker
-docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
-
 ### List of available APIs
 
 API | Description
@@ -55,6 +52,9 @@ Error Code | Http Status Code | Description
     - Sonar Integrations
     - Integration T%est Cases
     - Docker Image building and publish to artifactory
+    
+# Running Postgres in Docker
+docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
     
 #Running Application
 - Start Postgres Docker Image
