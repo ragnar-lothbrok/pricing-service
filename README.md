@@ -72,6 +72,13 @@ Error Code | Http Status Code | Description
 #For Debugging
 - Request Id is added as Part of Response in APIs. Which can be used to check the logs of specific API call.
 
+#Terminologies
+- Sale Price : Price on which we are selling Course. (Which will be shows on Description Page)
+- Price : Actual Price of Course (Base Price)
+- Total Price : Sale Price + Taxes (Which will be shows on Checkout Page)
+
+
+
 
 
     

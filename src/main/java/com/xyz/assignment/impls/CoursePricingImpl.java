@@ -52,9 +52,15 @@ public class CoursePricingImpl implements CoursePricingApi {
             return coursePrices.stream().map(coursePrice -> {
                 PricingResponse pricingResponse = constructBasicPriceResponse(localeId, coursePrice);
                 if(!CollectionUtils.isEmpty(finalTaxDetails)) {
-                    pricingResponse.setTaxes(calculateTax(finalTaxDetails, coursePrice));
-                    pricingResponse.setTotalTax(roundingFloat(pricingResponse.getTaxes().stream().map(tax -> tax.getTaxAmount()).reduce(0.0f, Float::sum)));
-                    pricingResponse.setTotalPrice(roundingFloat(coursePrice.getSalePrice() + pricingResponse.getTotalTax()));
+                    if(pricingResponse.getSalePrice().floatValue() != 0) {
+                        pricingResponse.setTaxes(calculateTax(finalTaxDetails, coursePrice));
+                        pricingResponse.setTotalTax(roundingFloat(pricingResponse.getTaxes().stream().map(tax -> tax.getTaxAmount()).reduce(0.0f, Float::sum)));
+                        pricingResponse.setTotalPrice(roundingFloat(coursePrice.getSalePrice() + pricingResponse.getTotalTax()));
+                    } else {
+                        pricingResponse.setTotalTax(0.00f);
+                        pricingResponse.setTotalPrice(0.00f);
+                        LOGGER.info("Skipping tax because sale price is zero.");
+                    }
                 }
                 return pricingResponse;
             }).collect(Collectors.toList());
