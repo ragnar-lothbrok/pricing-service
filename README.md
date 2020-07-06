@@ -24,8 +24,8 @@ APIs can be accessed via curl command:
 
 ### List of available Error Codes
 Error Code | Http Status Code | Description
---- | ---
-`11200` | 400 | When any required parameter is missing from Request.
+--- | --- | ---
+`11200` |  400 | When any required parameter is missing from Request.
 `11201` | 500 | When some unknown error occurrs in application.
 `11202` | 404 | When requested resource is not present in Application.
 `11203` | 404 | When Course Pricing for given Course is not Present.

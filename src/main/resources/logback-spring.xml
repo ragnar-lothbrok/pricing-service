@@ -7,7 +7,7 @@
         class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}):
+                %black(%d{ISO8601}) %highlight(%-5level) requestId=%X{requestId:-NA} [%blue(%t)] %yellow(%C{1.}):
                 %msg%n%throwable
             </Pattern>
         </layout>
@@ -18,7 +18,7 @@
         <file>${LOGS_PATH}/pricing-logger.log</file>
         <encoder
             class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+            <Pattern>%d %p %C{1.} requestId=%X{requestId:-NA} [%t] %m%n</Pattern>
         </encoder>
 
         <rollingPolicy
