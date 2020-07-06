@@ -29,7 +29,7 @@ Error Code | Http Status Code | Description
 `11204` | 500 | There is an error when communicating with Database.
 
 
-#What is not covered
+### What is not covered
 - Unit Test Cases
     - Mockito, JUnit
 - Integration Test Cases
@@ -46,6 +46,7 @@ Error Code | Http Status Code | Description
     - Database SSL Mode needs to ne enabled in Stage/Production Environment.
     - Sonar Integration
     - Access-Control-Allow-Origin needs to be set with actual value wherever application will be deployed.
+    - Adding database credentials to vault (Separate service which will store all credentials.)
 - CI/CD
     - Jenkins
     - Unit Test Cases
@@ -53,11 +54,12 @@ Error Code | Http Status Code | Description
     - Integration T%est Cases
     - Docker Image building and publish to artifactory
     
-# Running Postgres in Docker
+### Running Postgres in Docker
 docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
     
-#Running Application
-- Start Postgres Docker Image
+### Running Application
+- Install Docker
+- Start Postgres Docker Image using above command
 - JDK 11
 - Maven
 - Clone repository (git clone https://github.com/ragnar-lothbrok/pricing-service.git)
@@ -69,10 +71,10 @@ docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 p
     - java -jar target/pricing-service-0.0.1-SNAPSHOT.jar
 - Use either Curl or Swagger    
 
-#For Debugging
+# For Debugging
 - Request Id is added as Part of Response in APIs. Which can be used to check the logs of specific API call.
 
-#Terminologies
+# Terminologies
 - Sale Price : Price on which we are selling Course. (Which will be shows on Description Page)
 - Price : Actual Price of Course (Base Price)
 - Total Price : Sale Price + Taxes (Which will be shows on Checkout Page)
