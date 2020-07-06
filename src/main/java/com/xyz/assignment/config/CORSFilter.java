@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CORSFilter implements Filter {
 
+    public static final String REQUEST_ID = "requestId";
+
     public CORSFilter() {
 
     }
@@ -32,8 +34,8 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "locale, Content-Type, Accept, X-Requested-With, remember-me");
 
         String requestId = UUID.randomUUID().toString().replace("-", "");
-        response.setHeader("requestId", requestId);
-        MDC.put("requestId", requestId);
+        response.setHeader(REQUEST_ID, requestId);
+        MDC.put(REQUEST_ID, requestId);
         chain.doFilter(req, res);
     }
 
