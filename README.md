@@ -71,6 +71,9 @@ docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 p
     - java -jar target/pricing-service-0.0.1-SNAPSHOT.jar
 - Use either Curl or Swagger    
 
+### Database Schema
+
+
 # For Debugging
 - Request Id is added as Part of Response in APIs. Which can be used to check the logs of specific API call.
 
@@ -78,6 +81,8 @@ docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 p
 - Sale Price : Price on which we are selling Course. (Which will be shows on Description Page)
 - Price : Actual Price of Course (Base Price)
 - Total Price : Sale Price + Taxes (Which will be shows on Checkout Page)
+
+
 
 
 
