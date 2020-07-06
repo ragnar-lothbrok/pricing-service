@@ -8,9 +8,9 @@ https://ragnar-lothbrok.github.io/pricing-swagger/
 docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 postgres
 
 #CURL CALLS
-curl -X GET "http://localhost:8080/lms/v1/course/1/price" -H "accept: application/json" -H "locale: USD"
+curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "locale: INR"
 
-curl -X GET "http://localhost:8080/lms/v1/course/1/price" -H "accept: application/json" -H "locale: INR"
+curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "locale: USD"
 
 #What is not covered
 - Unit Test Cases

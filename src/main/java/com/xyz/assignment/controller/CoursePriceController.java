@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/lms/v1/course")
+@RequestMapping(value = "/lms/v1/price")
 public class CoursePriceController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CoursePriceController.class);
@@ -23,8 +24,9 @@ public class CoursePriceController {
     @Autowired
     private CoursePricingApi coursePricingApi;
 
-    @GetMapping(value = "/{courseId}/price")
+    @GetMapping(value = "/course/{courseId}")
     @ResponseBody
+    @CrossOrigin
     public ResponseDto<CoursePricingResponse> getPrice(@PathVariable("courseId") Long courseId, @RequestHeader(value = "locale" , required =  true) String locale,  HttpServletRequest request) {
         LOGGER.info("Request received for Course ={} with Locale = {}", courseId, locale);
         return new ResponseDto(coursePricingApi.getCoursePrice(courseId, locale));
