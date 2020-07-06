@@ -40,8 +40,8 @@ public class CoursePrice {
         @Column(name = "course_id", nullable = false)
         private Long id;
 
-        @Column(name = "locale_id", columnDefinition = "varchar(6)", nullable = false)
-        private String localeId;
+        @Column(name = "currency", columnDefinition = "varchar(6)", nullable = false)
+        private String currency;
 
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "subscription_id", nullable = false)
@@ -56,12 +56,12 @@ public class CoursePrice {
             this.id = id;
         }
 
-        public String getLocaleId() {
-            return localeId;
+        public String getCurrency() {
+            return currency;
         }
 
-        public void setLocaleId(String localeId) {
-            this.localeId = localeId;
+        public void setCurrency(String currency) {
+            this.currency = currency;
         }
 
         public SubscriptionType getSubscriptionType() {

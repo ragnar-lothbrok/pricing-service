@@ -34,10 +34,10 @@ public class CoursePricingImpl implements CoursePricingApi {
     private TaxDetailsRepository taxDetailsRepository;
 
     @Override
-    public List<PricingResponse> getCoursePrice(Long courseId, String localeId, Boolean inline) {
-        LOGGER.info("Calculating Course Price for Course = {} and Locale = {} ", courseId, localeId);
+    public List<PricingResponse> getCoursePrice(Long courseId, String currency, Boolean inline) {
+        LOGGER.info("Calculating Course Price for Course = {} and Currency = {} ", courseId, currency);
         try {
-            List<CoursePrice> coursePrices = coursePriceRepository.findByCourseIdAndLocaleId(courseId, localeId);
+            List<CoursePrice> coursePrices = coursePriceRepository.findByCourseIdAndCurrency(courseId, currency);
             if(CollectionUtils.isEmpty(coursePrices)) {
                 LOGGER.info("Course Price not found.");
                 throw new ServiceException(ErrorConstants.COURSE_PRICING_NOT_FOUND, "Course Pricing not found", HttpStatus.NOT_FOUND.value());
@@ -45,12 +45,12 @@ public class CoursePricingImpl implements CoursePricingApi {
 
             List<TaxDetails> taxDetails = null;
             if(Objects.nonNull(inline) && inline) {
-                taxDetails = taxDetailsRepository.findByLocaleId(localeId);
+                taxDetails = taxDetailsRepository.findByCurrency(currency);
             }
 
             List<TaxDetails> finalTaxDetails = taxDetails;
             return coursePrices.stream().map(coursePrice -> {
-                PricingResponse pricingResponse = constructBasicPriceResponse(localeId, coursePrice);
+                PricingResponse pricingResponse = constructBasicPriceResponse(currency, coursePrice);
                 if(!CollectionUtils.isEmpty(finalTaxDetails)) {
                     if(pricingResponse.getSalePrice().floatValue() != 0) {
                         pricingResponse.setTaxes(calculateTax(finalTaxDetails, coursePrice));
@@ -75,13 +75,13 @@ public class CoursePricingImpl implements CoursePricingApi {
 
     /**
      * Returns Basic Pricinig Response
-     * @param localeId
+     * @param currency
      * @param coursePrice
      * @return PricingResponse
      */
-    private PricingResponse constructBasicPriceResponse(String localeId, CoursePrice coursePrice) {
+    private PricingResponse constructBasicPriceResponse(String currency, CoursePrice coursePrice) {
         PricingResponse pricingResponse = new PricingResponse();
-        pricingResponse.setCurrency(CurrencyEnum.valueOf(localeId));
+        pricingResponse.setCurrency(CurrencyEnum.valueOf(currency));
         pricingResponse.setSalePrice(roundingFloat(coursePrice.getSalePrice()));
         pricingResponse.setPrice(roundingFloat(coursePrice.getPrice()));
         pricingResponse.setSubscriptionId(coursePrice.getCoursePricePK().getSubscriptionType().getId());
@@ -91,7 +91,7 @@ public class CoursePricingImpl implements CoursePricingApi {
 
 
     /**
-     * Returns Taxes calculation as per Locale.
+     * Returns Taxes calculation as per Currency.
      * @param taxDetails
      * @param coursePrice
      * @return

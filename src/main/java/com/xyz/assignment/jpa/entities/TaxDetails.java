@@ -19,8 +19,8 @@ public class TaxDetails {
     @Column(name = "id", columnDefinition = "serial")
     private Long id;
 
-    @Column(name = "locale_id", columnDefinition = "varchar(6)", nullable = false)
-    private String localeId;
+    @Column(name = "currency", columnDefinition = "varchar(6)", nullable = false)
+    private String currency;
 
     @Column(name = "label", columnDefinition = "varchar(20)", nullable = false)
     private String label;
@@ -50,12 +50,12 @@ public class TaxDetails {
         this.id = id;
     }
 
-    public String getLocaleId() {
-        return localeId;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setLocaleId(String localeId) {
-        this.localeId = localeId;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getLabel() {

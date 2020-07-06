@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaxDetailsRepository extends CrudRepository<TaxDetails, Long> {
 
-    @Query("FROM TaxDetails where localeId = :localeId and active = true")
-    List<TaxDetails> findByLocaleId(@Param("localeId") String localeId);
+    @Query("FROM TaxDetails where currency = :currency and active = true")
+    List<TaxDetails> findByCurrency(@Param("currency") String currency);
 }

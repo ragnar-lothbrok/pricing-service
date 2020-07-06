@@ -26,9 +26,9 @@ public class CoursePriceController {
 
     @GetMapping(value = "/course/{courseId}")
     @ResponseBody
-    public ResponseDto<CoursePricingResponse> getPrice(@PathVariable("courseId") Long courseId, @RequestHeader(value = "locale" , required =  true) String locale,  @RequestParam(value= "inline", required = false) Boolean inline, HttpServletRequest request) {
-        LOGGER.info("Request received for Course ={} with Locale = {}", courseId, locale);
-        return new ResponseDto(coursePricingApi.getCoursePrice(courseId, locale, inline));
+    public ResponseDto<CoursePricingResponse> getPrice(@PathVariable("courseId") Long courseId, @RequestHeader(value = "currency" , required =  true) String currency,  @RequestParam(value= "inline", required = false) Boolean inline, HttpServletRequest request) {
+        LOGGER.info("Request received for Course ={} with Currency = {}", courseId, currency);
+        return new ResponseDto(coursePricingApi.getCoursePrice(courseId, currency, inline));
     }
 
 }

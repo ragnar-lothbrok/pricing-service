@@ -13,10 +13,10 @@ API | Description
 
 
 APIs can be accessed via curl command: 
-- `curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "locale: INR"`
-- `curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "locale: USD"`
-- `curl -X GET "http://localhost:8080/lms/v1/price/course/1?inline=true" -H "accept: application/json" -H "locale: INR"`
-- `curl -X GET "http://localhost:8080/lms/v1/price/course/1?inline=true" -H "accept: application/json" -H "locale: USD"`
+- `curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "currency: INR"`
+- `curl -X GET "http://localhost:8080/lms/v1/price/course/1" -H "accept: application/json" -H "currency: USD"`
+- `curl -X GET "http://localhost:8080/lms/v1/price/course/1?inline=true" -H "accept: application/json" -H "currency: INR"`
+- `curl -X GET "http://localhost:8080/lms/v1/price/course/1?inline=true" -H "accept: application/json" -H "currency: USD"`
 - `curl -X GET "http://localhost:8080/actuator/health" -H "accept: application/json"`
 
 ### List of available Error Codes

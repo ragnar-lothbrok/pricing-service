@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CoursePriceRepository extends CrudRepository<CoursePrice, CoursePricePK> {
 
-    @Query("FROM CoursePrice where coursePricePK.id = :courseId AND coursePricePK.localeId = :localeId")
-    List<CoursePrice> findByCourseIdAndLocaleId(@Param("courseId") Long courseId, @Param("localeId") String localeId);
+    @Query("FROM CoursePrice where coursePricePK.id = :courseId AND coursePricePK.currency = :currency")
+    List<CoursePrice> findByCourseIdAndCurrency(@Param("courseId") Long courseId, @Param("currency") String currency);
 }
