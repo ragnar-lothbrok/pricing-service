@@ -24,6 +24,14 @@ public class CoursePriceController {
     @Autowired
     private CoursePricingApi coursePricingApi;
 
+    /**
+     * Return Pricing of a given Course.
+     * @param courseId
+     * @param currency
+     * @param inline
+     * @param request
+     * @return ResponseDto<CoursePricingResponse>
+     */
     @GetMapping(value = "/course/{courseId}")
     @ResponseBody
     public ResponseDto<CoursePricingResponse> getPrice(@PathVariable("courseId") Long courseId, @RequestHeader(value = "currency" , required =  true) String currency,  @RequestParam(value= "inline", required = false) Boolean inline, HttpServletRequest request) {

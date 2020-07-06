@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
+/**
+ * Configuration for security.
+ */
 @Component
 public class CORSFilter implements Filter {
 

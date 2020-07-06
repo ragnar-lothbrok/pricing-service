@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 
+/**
+ * Any error from API should follow below class pattern.
+ */
 @JsonInclude(Include.NON_NULL)
 public class ExceptionResponseDto {
 

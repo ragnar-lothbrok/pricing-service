@@ -1,5 +1,8 @@
 package com.xyz.assignment.constants;
 
+/**
+ * This contains all Error Codes.
+ */
 public class ErrorConstants {
 
     private ErrorConstants() {
