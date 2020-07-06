@@ -48,6 +48,7 @@ Error Code | Http Status Code | Description
 - Security
     - Database SSL Mode needs to ne enabled in Stage/Production Environment.
     - Sonar Integration
+    - Access-Control-Allow-Origin needs to be set with actual value wherever application will be deployed.
 - CI/CD
     - Jenkins
     - Unit Test Cases
@@ -66,7 +67,10 @@ Error Code | Http Status Code | Description
 - Second Approach
     - mvn clean install
     - java -jar target/pricing-service-0.0.1-SNAPSHOT.jar
-- Use either Curl or Swagger     
+- Use either Curl or Swagger    
+
+#For Debugging
+- Request Id is added as Part of Response in APIs. Which can be used to check the logs of specific API call.
 
 
 
